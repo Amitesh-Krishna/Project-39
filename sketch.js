@@ -10,7 +10,7 @@ var obstaclesGroup, obstacle1, obstacle2, obstacle3, obstacle4, obstacle5, obsta
 
 var score;
 var gameOverImg,restartImg
-var jumpSound , checkPointSound, dieSound
+var hp,curFrame=0;//health points
 
 function preload(){
   trex_running = loadAnimation("Img/trex1.png","Img/trex3.png","Img/trex4.png");
@@ -63,16 +63,14 @@ function setup() {
   obstaclesGroup = createGroup();
   cloudsGroup = createGroup();
 
-  
   trex.setCollider("rectangle",0,0,trex.width,trex.height);
   //trex.debug = true
   
   score = 0;
-  
+  hp = new Health(3);
 }
 
 function draw() {
-  
   background(180);
   //displaying score
   textSize(30);
@@ -90,6 +88,7 @@ function draw() {
     restart.x = ground.x;
     invisibleGround.x = ground.x;
 
+    hp.display();
     //jump when the space key is pressed
     if(keyDown("space") && trex.y >= height - 65){
       trex.velocityY = -18;
@@ -106,7 +105,12 @@ function draw() {
     //spawn obstacles on the ground
     spawnObstacles();
     
-    if(obstaclesGroup.isTouching(trex)){
+    if(obstaclesGroup.isTouching(trex) && frameCount > curFrame){
+        hp.damage();
+        //curFrame += frameCount + 20;
+    }
+
+    if(hp.dead()){
         gameState = END;
     }
   }
