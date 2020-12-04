@@ -217,4 +217,6 @@ function reset(){
   gameState = PLAY;
   
   trex.changeAnimation("running");
+  
+  hp.revive(3);
 }
