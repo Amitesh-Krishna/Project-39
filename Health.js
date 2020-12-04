@@ -22,4 +22,8 @@ class Health{
 			return false;
 		}
 	}
+	
+	revive(hp){
+		this.hp = hp;
+	}
 }
